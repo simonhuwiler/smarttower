@@ -1,115 +1,192 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { POINT_CONVERSION_COMPRESSED } from 'constants';
+import data from './data.js';
+import consts from './consts.js';
+import helpers from './helpers.js';
+import popup from './popup/popup.js'
+import scroller from './scroller/scroller.js';
+import style from './style.css'
 
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
 
-//restriktive_finanzpolitik	liberale_wirtschaftspolitik	offene_aussenpolitik	liberale_gesellschaft	ausgebauter_sozialstaat	ausgebauter_umweltschutz	restriktive_migrationspolitik	law_order
-var spider = [39.671123, 36.389095, 61.155204, 69.786063, 68.795720, 77.838097, 24.622771, 36.363786]
-
+//Create Renderer
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
+renderer.setClearColor( 0xffffff, 1 );
 document.body.appendChild( renderer.domElement );
 
-var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-var material = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
-var cube = new THREE.Mesh( geometry, material );
+//Init Popup
+popup(scene, camera);
 
-var x = 0, y = 0;
+//Calculate Angles
 var angles = []
-console.log(spider.length)
-for(var i = 0; i < spider.length; i++)
+for(var i = 0; i < 8; i++)
 {
   // angles.push(i / spider.length * 2 * Math.PI)
-  angles.push(360 / spider.length * i)
+  angles.push(360 / 8 * i)
 }
 angles.push(angles[0])
-console.log(angles)
 
-function deg2rad(degrees)
+
+
+var extrudeSettings = {
+  steps: 1,
+  depth: consts.geometryHeight,
+  bevelEnabled: false,
+  bevelThickness: 0,
+  bevelSize: 0,
+  bevelOffset: 0,
+  bevelSegments: 0
+};
+
+function createSpider(index, values, color)
 {
-  var pi = Math.PI;
-  return degrees * (pi/180);
+  //Calculate Points
+  var points = []
+  for(var i = 0; i < values.length; i++)
+  {
+    const x = Math.sin(helpers.deg2rad(angles[i])) * values[i] / 10
+    const y = Math.cos(helpers.deg2rad(angles[i])) * values[i] / 10
+    points.push({x: y, y: x})
+  }
+  points.push(points[0])
+
+  //Create Shape
+  var shape = new THREE.Shape();
+  shape.moveTo(points[0].x, points[0].y)
+  for(var i = 1; i < points.length -1; i++)
+  {
+    shape.lineTo(points[i].x, points[i].y);
+  }
+
+  //Create Geometry
+  var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
+
+  //Create Material
+  var material = new THREE.MeshPhongMaterial( { color: color } );
+  //Create Mesh
+  var mesh = new THREE.Mesh( geometry, material ) ;
+
+  //Add Data
+  mesh.userData = {index: index}
+  mesh.visible = true;
+
+  mesh.rotateX(90 * Math.PI / 180)
+
+  return mesh;
+
 }
 
-// spider.push(spider[0]);
-var points = []
-for(var i = 0; i < spider.length; i++)
+
+//PreRender
+render();
+
+//Create Spider;
+for(var i = 0; i < data.spider.length -1; i++)
 {
-  //b = x
-  //a = y
-  // const a = spider[i] * Math.sin(angles[i]);
-  // const b = Math.sqrt(Math.pow(a, 2) * -1 + Math.pow(spider[i], 2))
-  // points.push({x: b, y: a})
-
-  const x = Math.sin(deg2rad(angles[i])) * spider[i]
-  const y = Math.cos(deg2rad(angles[i])) * spider[i]
-  // points.push({x: x, y: y})
-  points.push({x: y, y: x})
+  var spider3d = createSpider(i, data.spider[i], consts.partyColor[data.profile[i].party]);
+  spider3d.position.set(0, i * consts.geometryHeight, 0)
+  data.profile[i].spider3d = spider3d;
+  scene.add(spider3d);
+  //renderer.render(scene, camera)
 }
-points.push(points[0])
+
+//Create Scroller
+document.querySelector('#scroller').style.height = data.profile.length * consts.pixelRatio + 'px';
+document.querySelector('#scroller').style.width = 360 * consts.pixelRatio + 'px';
+
+//Init Scroller
+scroller(camera, data.profile.length * consts.geometryHeight + consts.cameraYOffset, render)
 
 
-console.log(points)
-var s = ""
-points.forEach(p => {
-  s += p.x +','+ p.y + '\n'
-})
-console.log(s)
-
-var shape = new THREE.Shape();
-shape.moveTo(points[0].x, points[0].y)
-for(var i = 1; i < points.length -1; i++)
+var currentIndex = 0;
+function fadeIn()
 {
-  shape.lineTo(points[i].x, points[i].y);
+  console.log("fader")
+  var posInternal = currentIndex;
+  for(var i = posInternal; i < posInternal + 1000 && i < data.spider.length - 1; i++)
+  {
+    data.profile[i].spider3d.visible = true;
+    currentIndex = i;
+  }
+
+  //Set Camera
+  const spider3d = data.profile[currentIndex].spider3d;
+  camera.position.x = spider3d.position.x;
+  camera.position.y = spider3d.position.y + consts.cameraYOffset;
+  camera.position.z = spider3d.position.z + consts.cameraZOffset;
+  camera.lookAt(new THREE.Vector3(spider3d.position.x, spider3d.position.y, spider3d.position.z))
+  console.log(camera.position.y)
+
+  render();
+  if(currentIndex < data.profile.length - 2)
+    setTimeout(fadeIn, 10)
+  // else addOrbiter();
+
 }
-var geometry = new THREE.ShapeGeometry( shape );
-var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-var mesh = new THREE.Mesh( geometry, material ) ;
-scene.add( mesh );
 
+fadeIn();
+// addOrbiter()
 
-var heartShape = new THREE.Shape();
-
-heartShape.moveTo( 0, 0 );
-heartShape.lineTo( 10, 0 );
-heartShape.lineTo( 10, 10 );
-heartShape.lineTo( 0, 10 );
-heartShape.lineTo( 0, 0 );
-
-// var geometry = new THREE.ShapeGeometry( heartShape );
-// var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-// var mesh = new THREE.Mesh( geometry, material ) ;
-// scene.add( mesh );
+//Add Grid
+var gridHelper = new THREE.GridHelper( 100, 100 );
+scene.add( gridHelper );
 
 //Light
-var light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
+var spotLight1 = new THREE.SpotLight( 0xffffff, 0.5 );
+spotLight1.position.set( 30, 10, 10 );
+ scene.add( spotLight1 );
 
-scene.add( light );
+var spotLight2 = new THREE.SpotLight( 0xffffff, 0.5 );
+spotLight2.position.set( 30, 100, 10 );
+scene.add( spotLight2 );
 
-camera.position.z = 200;
-camera.position.x = 2;
-camera.position.y = 2;
+var ambientLight = new THREE.AmbientLight(0x404040, 1);
+scene.add( ambientLight );
 
+var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+directionalLight.position.set(0, 10, 0)
+scene.add( directionalLight );
+
+// var spotLight = new THREE.SpotLight( 0xffffff );
+// spotLight.position.set( 20, 50, 20 );
+
+// scene.add(spotLight)
+// var spotLightHelper = new THREE.SpotLightHelper( spotLight );
+// scene.add( spotLightHelper );
+
+camera.position.z = 30;
+camera.position.x = 0;
+camera.position.y = 0;
+
+
+render();
+
+
+function render()
+{
+  renderer.render( scene, camera );
+}
+
+var controls;
+
+function addOrbiter()
+{
+  controls = new OrbitControls( camera, renderer.domElement );
+  controls.update();
+  animate();
+}
+
+
+function animate() {
+
+	requestAnimationFrame( animate );
+
+	// required if controls.enableDamping or controls.autoRotate are set to true
+	controls.update();
 
 	renderer.render( scene, camera );
 
-
-// var controls = new OrbitControls( camera, renderer.domElement );
-// controls.update();
-
-
-// function animate() {
-
-// 	requestAnimationFrame( animate );
-
-// 	// required if controls.enableDamping or controls.autoRotate are set to true
-// 	controls.update();
-
-// 	renderer.render( scene, camera );
-
-// }
-
-// animate();
+}

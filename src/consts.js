@@ -1,60 +1,66 @@
 exports.geometryHeight = 0.1
-exports.pixelRatio = 5;
+
+//Radio for scrolling
+
+//Camera offsets
 exports.cameraYOffset = 25;
 exports.cameraZOffset = 25;
 
-smallPartyColor = 0x8a8a8a
+//Fader
+exports.fadeSpiderPerRun = 2000
+
+smallPartyColor = '#8a8a8a';
 
 exports.partyColor = {
   '5G ade!': smallPartyColor,
   'AL': smallPartyColor,
   'ALG': smallPartyColor,
-  'BDP': 0xffdb17,
+  'BDP': '#ffdb17',
   'BastA!': smallPartyColor,
-  'CSP': 0x0097a6,
-  'CSPO': 0x0097a6,
+  'CSP': '#0097a6',
+  'CSPO': '#0097a6',
   'CSV': smallPartyColor,
-  'CVP': 0xff8211,
+  'CVP': '#ff8211',
   'DDSN': smallPartyColor,
   'DU': smallPartyColor,
-  'EDU': 0xf10000,
-  'EVP': 0x006099,
+  'EDU': '#f10000',
+  'EVP': '#006099',
   'EàG': smallPartyColor,
-  'FDP': 0x00509f,
+  'FDP': '#00509f',
   'FED': smallPartyColor,
   'FW AG': smallPartyColor,
-  'Grüne': 0x7fb41e,
+  'Grüne': '#7fb41e',
   'IP': smallPartyColor,
   'JA!': smallPartyColor,
-  'JBDP': 0xffdb17,
+  'JBDP': '#ffdb17',
   'JCSPO': smallPartyColor,
-  'JCVP': 0xff8211,
-  'JG': 0x7fb41e,
+  'JCVP': '#ff8211',
+  'JG': '#7fb41e',
   'JSP': smallPartyColor,
-  'JSVP': 0x00a65c,
-  'JUSO': 0xf91e3a,
+  'JSVP': '#00a65c',
+  'JUSO': '#f91e3a',
   'LDP': smallPartyColor,
-  'Lega': 0x0163aa,
+  'Lega': '#0163aa',
   'MCG': smallPartyColor,
   'MV': smallPartyColor,
   'PC': smallPartyColor,
   'PCSI': smallPartyColor,
   'PUM': smallPartyColor,
   'Parteilos': smallPartyColor,
-  'PdA': 0xff0000,
-  'Piraten': 0xfa7a05,
+  'PdA': '#ff0000',
+  'Piraten': '#fa7a05',
   'Più Donne': smallPartyColor,
-  'SD': 0xff0000,
+  'SD': '#ff0000',
   'SHP': smallPartyColor,
-  'SP': 0xf91e3a,
-  'SVP': 0x00a65c,
+  'SP': '#f91e3a',
+  'SVP': '#00a65c',
   'TEAM65+': smallPartyColor,
-  'glp': 0x97cf34,
+  'glp': '#97cf34',
   'jLDP': smallPartyColor,
-  'jevp': 0x006099,
-  'jf': 0x00509f,
-  'jglp': 0x97cf34,
+  'jevp': '#006099',
+  'jf': '#00509f',
+  'jglp': '#97cf34',
   'solid.': smallPartyColor,
   'up!': smallPartyColor,
-  'überp. CVP': 0xff8211
+  'überp. CVP': '#ff8211'
 }

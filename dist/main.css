@@ -1,10 +1,11 @@
-body
+#popup
 {
-  margin: 0;
-  font-family: 'Hind Siliguri', 'Arial', sans-serif;
-  line-height: 20px;
+  position: fixed;
+  z-index: 100;
+  top: 5px;
+  left: 5px;
+  background-color: #ffffffd6;
 }
-
 canvas
 {
   position: fixed;
@@ -47,6 +48,7 @@ canvas
   border: 0;
 }
 
+
 #controls button:hover
 {
   background-color: rgb(249, 249, 249);
@@ -62,12 +64,4 @@ canvas
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath style='fill:%23333333;' d='m 7,9 c -0.554,0 -1,0.446 -1,1 0,0.554 0.446,1 1,1 l 6,0 c 0.554,0 1,-0.446 1,-1 0,-0.554 -0.446,-1 -1,-1 z'/%3E %3C/svg%3E");
 }
 
-a, a:visited
-{
-  color: #1c1c1c;
-}
-
-a:hover, a:active
-{
-  color: #303030;
-}
+/*# sourceMappingURL=main.css.map*/

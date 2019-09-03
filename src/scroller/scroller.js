@@ -1,32 +1,90 @@
 import * as THREE from 'three';
 import consts from '../consts.js';
-import helpers from '../helpers.js';
 
-function initScroller(camera, maxSize, callback)
+var mouseDown = false;
+var lastPosition = {x: 0, y: 0};
+var camera, callback;
+
+function addZoomControl()
 {
-  const divSize = document.querySelector('#scroller').clientHeight;
-  const divWidth = document.querySelector('#scroller').clientWidth;
-  window.addEventListener('scroll', e => {
-    //Calc Y
-    const  positionYInPercent = 100 / divSize * ( divSize - window.scrollY)
-    const y =  maxSize / 100 * positionYInPercent;
-    camera.position.y = y;
+  document.querySelector('#controls').insertAdjacentHTML('beforeend', `
+    <div class='zoomgroup'>
+        <button class='zoomPlus'></button>
+        <button class='zoomMinus'></button>
+      </div>`);
 
-    //Calc X
-    const  positionXInPercent = 100 / (divWidth - window.innerWidth) * window.scrollX;
+  document.querySelector('#controls .zoomPlus').addEventListener("click", () => zoom(-2));
+  document.querySelector('#controls .zoomMinus').addEventListener("click", () => zoom(2));
+}
 
-    //Calc degrees. Add Initial Value
-    var degrees = helpers.deg2rad(360 / 100 * positionXInPercent + 90)
+function zoom(value)
+{
 
-    const pos_x = Math.cos(degrees) * consts.cameraZOffset;
-    const pos_z = Math.sin(degrees) * consts.cameraZOffset;
-  
-    camera.position.x = pos_x;
-    camera.position.z = pos_z;
+  const x = camera.position.x;
+  const z = camera.position.z;
 
-    camera.lookAt(new THREE.Vector3(0, camera.position.y - consts.cameraYOffset, 0))
-    callback()
+  const speed = value;
+
+  camera.position.x = camera.position.x >= 0 ? x + speed : x - speed;
+  camera.position.z = camera.position.z >= 0 ? z + speed : z - speed;
+
+  camera.lookAt(new THREE.Vector3(0, camera.position.y - consts.cameraYOffset, 0))
+
+  callback(false)
+}
+
+function initScroller(_camera, maxSize, _callback)
+{
+  camera = _camera;
+  callback = _callback;
+  document.body.onmousedown = function(e) { 
+    //Set last Position
+    lastPosition.x = e.screenX;
+    lastPosition.y = e.screenY;
+    callback(true)
+
+    mouseDown = true;
+  }
+  document.body.onmouseup = function() {
+    mouseDown = false;
+
+    callback(false)
+  }
+
+  window.addEventListener("wheel", e => {
+
+    zoom(0.01 * event.deltaY)
+  });
+
+  window.addEventListener('mousemove', e => {
+    if(mouseDown)
+    {
+      //Calc Y
+      var y = camera.position.y + 0.1 * (e.screenY - lastPosition.y)
+
+      if(y < maxSize && y >= 15)
+      {
+        camera.position.y = y;
+      }
+
+      //Calc X
+      const rotSpeed = 0.01 * (lastPosition.x - e.screenX);
+
+      const x = camera.position.x;
+      const z = camera.position.z;
+
+      camera.position.x = x * Math.cos(rotSpeed) + z * Math.sin(rotSpeed);
+      camera.position.z = z * Math.cos(rotSpeed) - x * Math.sin(rotSpeed);
+
+      lastPosition.x = e.screenX;
+      lastPosition.y = e.screenY;
+      camera.lookAt(new THREE.Vector3(0, camera.position.y - consts.cameraYOffset, 0))
+    }
   });
 }
 
-export default initScroller
+
+export default {
+  initScroller: initScroller,
+  addZoomControl: addZoomControl
+}

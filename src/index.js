@@ -5,6 +5,7 @@ import consts from './consts.js';
 import helpers from './helpers.js';
 import popup from './popup/popup.js'
 import scroller from './scroller/scroller.js';
+import sprites from './sprites';
 import style from './style.css'
 
 var scene = new THREE.Scene();
@@ -19,17 +20,6 @@ document.body.appendChild( renderer.domElement );
 
 //Init Popup
 popup(scene, camera);
-
-//Calculate Angles
-var angles = []
-for(var i = 0; i < 8; i++)
-{
-  // angles.push(i / spider.length * 2 * Math.PI)
-  angles.push(360 / 8 * i)
-}
-angles.push(angles[0])
-
-
 
 var extrudeSettings = {
   steps: 1,
@@ -47,8 +37,8 @@ function createSpider(index, values, color)
   var points = []
   for(var i = 0; i < values.length; i++)
   {
-    const x = Math.sin(helpers.deg2rad(angles[i])) * values[i] / 10
-    const y = Math.cos(helpers.deg2rad(angles[i])) * values[i] / 10
+    const x = Math.sin(helpers.deg2rad(helpers.angles[i])) * values[i] / 10
+    const y = Math.cos(helpers.deg2rad(helpers.angles[i])) * values[i] / 10
     points.push({x: y, y: x})
   }
   points.push(points[0])
@@ -71,7 +61,7 @@ function createSpider(index, values, color)
 
   //Add Data
   mesh.userData = {index: index}
-  mesh.visible = true;
+  mesh.visible = false;
 
   mesh.rotateX(90 * Math.PI / 180)
 
@@ -79,34 +69,43 @@ function createSpider(index, values, color)
 
 }
 
-
-//PreRender
-render();
-
 //Create Spider;
-for(var i = 0; i < data.spider.length -1; i++)
+for(var i = 0; i <= data.spider.length - 1; i++)
 {
   var spider3d = createSpider(i, data.spider[i], consts.partyColor[data.profile[i].party]);
   spider3d.position.set(0, i * consts.geometryHeight, 0)
   data.profile[i].spider3d = spider3d;
   scene.add(spider3d);
-  //renderer.render(scene, camera)
 }
 
-//Create Scroller
-document.querySelector('#scroller').style.height = data.profile.length * consts.pixelRatio + 'px';
-document.querySelector('#scroller').style.width = 360 * consts.pixelRatio + 'px';
-
 //Init Scroller
-scroller(camera, data.profile.length * consts.geometryHeight + consts.cameraYOffset, render)
+scroller.initScroller(camera, data.profile.length * consts.geometryHeight + consts.cameraYOffset, continuousRenderer)
+scroller.addZoomControl();
+
+//Create Sprites
+sprites.generateStrips(group => {
+  //group.position.set(0, data.profile.length * consts.geometryHeight + 1, 0);
+  group.position.set(0, 1, 0);
+  scene.add(group);
+
+  //Clone
+  for(var i = 0; i < 5; i++)
+  {
+    var clone = group.clone();
+    clone.position.set(0, data.profile.length * consts.geometryHeight / 5 * (i + 1), 0)
+    scene.add(clone)
+  }
+
+  //PreRender
+  render();
+});
 
 
 var currentIndex = 0;
 function fadeIn()
 {
-  console.log("fader")
   var posInternal = currentIndex;
-  for(var i = posInternal; i < posInternal + 1000 && i < data.spider.length - 1; i++)
+  for(var i = posInternal; i < posInternal + consts.fadeSpiderPerRun && i <= data.spider.length - 1; i++)
   {
     data.profile[i].spider3d.visible = true;
     currentIndex = i;
@@ -118,7 +117,6 @@ function fadeIn()
   camera.position.y = spider3d.position.y + consts.cameraYOffset;
   camera.position.z = spider3d.position.z + consts.cameraZOffset;
   camera.lookAt(new THREE.Vector3(spider3d.position.x, spider3d.position.y, spider3d.position.z))
-  console.log(camera.position.y)
 
   render();
   if(currentIndex < data.profile.length - 2)
@@ -150,13 +148,6 @@ var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
 directionalLight.position.set(0, 10, 0)
 scene.add( directionalLight );
 
-// var spotLight = new THREE.SpotLight( 0xffffff );
-// spotLight.position.set( 20, 50, 20 );
-
-// scene.add(spotLight)
-// var spotLightHelper = new THREE.SpotLightHelper( spotLight );
-// scene.add( spotLightHelper );
-
 camera.position.z = 30;
 camera.position.x = 0;
 camera.position.y = 0;
@@ -180,13 +171,23 @@ function addOrbiter()
 }
 
 
-function animate() {
-
-	requestAnimationFrame( animate );
+function animate()
+{
+  if(continousRenderingRunning)
+	  requestAnimationFrame( animate );
 
 	// required if controls.enableDamping or controls.autoRotate are set to true
-	controls.update();
+	//controls.update();
 
 	renderer.render( scene, camera );
+
+}
+
+var continousRenderingRunning = false;
+function continuousRenderer(shoudRender)
+{
+  continousRenderingRunning = shoudRender;
+  render();
+  animate();
 
 }

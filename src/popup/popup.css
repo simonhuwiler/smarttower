@@ -2,7 +2,34 @@
 {
   position: fixed;
   z-index: 100;
+  top: 10px;
+  left: 10px;
+  width: 300px;
+
+  padding: 10px;
+  
+  border: 1px solid #666;
+  background: #fff;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2) inset;
+}
+
+#polName
+{
+  font-weight: bold;
+}
+
+#polParty
+{
+  position: absolute;
+  right: 5px;
   top: 5px;
-  left: 5px;
-  background-color: #ffffffd6;
+  font-size: 0.9em;
+  xbackground-color: green;
+  color: #ffffff;
+  font-weight: bold;
+  padding: 3px;
+  border-radius: 4px;
 }

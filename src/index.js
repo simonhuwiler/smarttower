@@ -60,7 +60,10 @@ scroller.addZoomControl();
 
 //Add Infobutton
 document.querySelector('#controls').insertAdjacentHTML('beforeend', `<button class='control information'></button>`);
-document.querySelector('#controls .information').addEventListener("click", () => document.querySelector('#credits').style.display = 'block');
+document.querySelector('#controls .information').addEventListener("click", () => {
+  document.querySelector('#credits').style.display = 'block'
+  document.querySelector("#popup").style.display = 'none'
+});
 document.querySelector("canvas").addEventListener("click", () => document.querySelector('#credits').style.display = 'none');
 
 //Init Sprites
@@ -91,10 +94,6 @@ sprites.generateStripes(group => {
   }
   */
 
-
-  //Init Popup
-  popup(scene, camera, render, tower, spriteArray[spriteArray.length - 1]);
-
   render();
 
 });
@@ -107,7 +106,10 @@ function startAnimation()
   fadeIn(0, () => {
 
     //Show Navigation
-    document.querySelector('#controls').style.display = 'block'
+    document.querySelector('#controls').style.display = 'block';
+
+    //Init Popup
+    popup(scene, camera, render, tower, spriteArray[spriteArray.length - 1]);
 
     //Show Sprites
     spriteArray.forEach(g => {

@@ -106,6 +106,7 @@ canvas
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
   width: 100%;
   margin-top: 5px;
+  line-height: 0;
 }
 
 #controls .zoomgroup button:last-child

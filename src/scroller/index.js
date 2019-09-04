@@ -39,8 +39,19 @@ function initScroller(_camera, maxSize, _callback)
   callback = _callback;
   document.body.onmousedown = function(e) { 
     //Set last Position
-    lastPosition.x = e.screenX;
-    lastPosition.y = e.screenY;
+    if('screenX' in e)
+    {
+      //Mouse
+      lastPosition.x = e.screenX;
+      lastPosition.y = e.screenY;
+    }
+    else
+    {
+      //Touch
+      lastPosition.x = e.touches[0].clientX;
+      lastPosition.y = e.touches[0].clientY;
+
+    }
     callback(true)
 
     mouseDown = true;
@@ -51,16 +62,21 @@ function initScroller(_camera, maxSize, _callback)
     callback(false)
   }
 
+  //Register Touch
+  document.body.ontouchstart = document.body.onmousedown;
+  document.body.ontouchend = document.body.onmouseup;
+
   window.addEventListener("wheel", e => {
 
     zoom(0.01 * event.deltaY)
   });
 
-  window.addEventListener('mousemove', e => {
+  function moveCamera(e)
+  {
     if(mouseDown)
     {
       //Calc Y
-      var y = camera.position.y + 0.1 * (e.screenY - lastPosition.y)
+      var y = camera.position.y + 0.1 * (e.y - lastPosition.y)
 
       if(y < maxSize && y >= 15)
       {
@@ -68,7 +84,7 @@ function initScroller(_camera, maxSize, _callback)
       }
 
       //Calc X
-      const rotSpeed = 0.01 * (lastPosition.x - e.screenX);
+      const rotSpeed = 0.01 * (lastPosition.x - e.x);
 
       const x = camera.position.x;
       const z = camera.position.z;
@@ -76,11 +92,14 @@ function initScroller(_camera, maxSize, _callback)
       camera.position.x = x * Math.cos(rotSpeed) + z * Math.sin(rotSpeed);
       camera.position.z = z * Math.cos(rotSpeed) - x * Math.sin(rotSpeed);
 
-      lastPosition.x = e.screenX;
-      lastPosition.y = e.screenY;
+      lastPosition.x = e.x;
+      lastPosition.y = e.y;
       camera.lookAt(new THREE.Vector3(0, camera.position.y - consts.cameraYOffset, 0))
     }
-  });
+  };
+  // document.body.ontouchmove = document.body.onmousemove;
+  document.body.onmousemove = e => moveCamera({x: e.screenX, y: e.screenY});
+  document.body.ontouchmove = e => moveCamera({x: e.touches[0].clientX, y: e.touches[0].clientY});
 }
 
 

@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import {Shape, ExtrudeBufferGeometry, MeshPhongMaterial, Mesh, Group} from 'three';
 import data from '../data.js';
 import consts from '../consts.js';
 import helpers from '../helpers.js'
@@ -26,7 +26,7 @@ function createSpider(index, values, color)
   points.push(points[0])
 
   //Create Shape
-  var shape = new THREE.Shape();
+  var shape = new Shape();
   shape.moveTo(points[0].x, points[0].y)
   for(var i = 1; i < points.length -1; i++)
   {
@@ -34,15 +34,15 @@ function createSpider(index, values, color)
   }
 
   //Create Geometry
-  var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
+  var geometry = new ExtrudeBufferGeometry( shape, extrudeSettings );
 
   if(!color)
     console.info('Unknown Color for party', data.profile[index])
 
   //Create Material
-  var material = new THREE.MeshPhongMaterial( { color: color } );
+  var material = new MeshPhongMaterial( { color: color } );
   //Create Mesh
-  var mesh = new THREE.Mesh( geometry, material ) ;
+  var mesh = new Mesh( geometry, material ) ;
 
   //Add Data
   mesh.userData = {index: index}
@@ -56,7 +56,7 @@ function createSpider(index, values, color)
 
 function createTower()
 {
-  var towerGroup = new THREE.Group();
+  var towerGroup = new Group();
   //Create Spider;
   for(var i = 0; i <= data.spider.length - 1; i++)
   {

@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import {Scene, PerspectiveCamera, WebGLRenderer, GridHelper, SpotLight, AmbientLight, DirectionalLight, Vector3} from 'three';
 import data from './data.js';
 import consts from './consts.js';
 import popup from './popup'
@@ -7,11 +7,11 @@ import sprites from './sprites';
 import spider from './spider'
 import style from './style.css'
 
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+var scene = new Scene();
+var camera = new PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
 //Create Renderer
-var renderer = new THREE.WebGLRenderer();
+var renderer = new WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 renderer.setClearColor( 0xffffff, 1 );
 document.body.appendChild( renderer.domElement );
@@ -26,22 +26,22 @@ window.addEventListener( 'resize', () => {
 }, false);
 
 //Add Grid
-var gridHelper = new THREE.GridHelper( 100, 100 );
+var gridHelper = new GridHelper( 100, 100 );
 scene.add( gridHelper );
 
 //Light
-var spotLight1 = new THREE.SpotLight( 0xffffff, 0.5 );
+var spotLight1 = new SpotLight( 0xffffff, 0.5 );
 spotLight1.position.set( 30, 10, 10 );
  scene.add( spotLight1 );
 
-var spotLight2 = new THREE.SpotLight( 0xffffff, 0.5 );
+var spotLight2 = new SpotLight( 0xffffff, 0.5 );
 spotLight2.position.set( 30, 100, 10 );
 scene.add( spotLight2 );
 
-var ambientLight = new THREE.AmbientLight(0x404040, 1);
+var ambientLight = new AmbientLight(0x404040, 1);
 scene.add( ambientLight );
 
-var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+var directionalLight = new DirectionalLight( 0xffffff, 0.5 );
 directionalLight.position.set(0, 10, 0)
 scene.add( directionalLight );
 
@@ -124,7 +124,7 @@ function fadeIn(currentIndex, callback)
   camera.position.x = spider3d.position.x;
   camera.position.y = spider3d.position.y + consts.cameraYOffset;
   camera.position.z = spider3d.position.z + consts.cameraZOffset;
-  camera.lookAt(new THREE.Vector3(spider3d.position.x, spider3d.position.y, spider3d.position.z))
+  camera.lookAt(new Vector3(spider3d.position.x, spider3d.position.y, spider3d.position.z))
 
   render();
   if(currentIndex < data.profile.length - 2)

@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import {Vector3} from 'three';
 import consts from '../consts.js';
 
 var mouseDown = false;
@@ -28,7 +28,7 @@ function zoom(value)
   camera.position.x = camera.position.x >= 0 ? x + speed : x - speed;
   camera.position.z = camera.position.z >= 0 ? z + speed : z - speed;
 
-  camera.lookAt(new THREE.Vector3(0, camera.position.y - consts.cameraYOffset, 0))
+  camera.lookAt(new Vector3(0, camera.position.y - consts.cameraYOffset, 0))
 
   callback(false)
 }
@@ -94,7 +94,7 @@ function initScroller(_camera, maxSize, _callback)
 
       lastPosition.x = e.x;
       lastPosition.y = e.y;
-      camera.lookAt(new THREE.Vector3(0, camera.position.y - consts.cameraYOffset, 0))
+      camera.lookAt(new Vector3(0, camera.position.y - consts.cameraYOffset, 0))
     }
   };
   // document.body.ontouchmove = document.body.onmousemove;

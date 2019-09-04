@@ -1,8 +1,5 @@
-import * as THREE from 'three';
+import {BackSide, TextureLoader, PlaneBufferGeometry, MeshBasicMaterial, Mesh, SpriteMaterial, Sprite, Group} from 'three';
 import helpers from '../helpers.js'
-
-
-
 
 function generateStripes(callback)
 {
@@ -19,7 +16,7 @@ function generateStripes(callback)
 ];
   var textures = [];
 
-  var loader = new THREE.TextureLoader();
+  var loader = new TextureLoader();
 
   //Texture Loader for multiple textures
   const loadTextures = (cb) => loader.load(texturesToLoad[textures.length], tex => {
@@ -35,22 +32,22 @@ function generateStripes(callback)
   });
 
   loadTextures(() => {
-    var group = new THREE.Group();
-
+    var group = new Group();
+    
     //Create spidergrid
-    var spidergrid_geometry = new THREE.PlaneBufferGeometry( 20, 20 );
-    var spidergrid_material = new THREE.MeshBasicMaterial({color: 0xffffff, side: THREE.BackSide});
+    var spidergrid_geometry = new PlaneBufferGeometry( 20, 20 );
+    var spidergrid_material = new MeshBasicMaterial({color: 0xffffff, side: BackSide});
     spidergrid_material.transparent = true;
     spidergrid_material.map = textures[0];
     spidergrid_material.needsUpdate = true;  
-    var spidergrid_mesh = new THREE.Mesh( spidergrid_geometry, spidergrid_material );
+    var spidergrid_mesh = new Mesh( spidergrid_geometry, spidergrid_material );
     group.add(spidergrid_mesh)
 
     function addSprite(texture, circlePosition)
     {
       //Create SpriteMap
-      var spriteMaterial = new THREE.SpriteMaterial( { map: texture, color: 0xffffff } );
-      var sprite = new THREE.Sprite( spriteMaterial );
+      var spriteMaterial = new SpriteMaterial( { map: texture, color: 0xffffff } );
+      var sprite = new Sprite( spriteMaterial );
       sprite.scale.set(5,5)
 
 

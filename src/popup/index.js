@@ -1,14 +1,13 @@
-import * as THREE from 'three';
+import {Raycaster, Vector2, MeshPhongMaterial} from 'three';
 import popup from './popup.css';
 import data from '../data.js';
 import consts from '../consts.js'
 
-
 function initPopup(scene, camera, renderCallback, intersectGroup, sprite)
 {
-  var raycaster = new THREE.Raycaster();
-  var mouse = new THREE.Vector2();
-  const hoverMaterial = new THREE.MeshPhongMaterial( { color: 0x06f3d4 } );
+  var raycaster = new Raycaster();
+  var mouse = new Vector2();
+  const hoverMaterial = new MeshPhongMaterial( { color: 0x06f3d4 } );
 
   var currentPopup = -1;
 

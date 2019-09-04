@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from math import pi
 
-def plot_dataframe(df, legend, print_dataframe = False, title = ""):
+def plot_dataframe(df, legend = [], print_dataframe = False, title = ""):
     
     categories = ['restriktive_finanzpolitik', 'liberale_wirtschaftspolitik', 'offene_aussenpolitik', 'liberale_gesellschaft',
                   'ausgebauter_sozialstaat', 'ausgebauter_umweltschutz', 'restriktive_migrationspolitik', 'law_order']
@@ -25,7 +25,6 @@ def plot_dataframe(df, legend, print_dataframe = False, title = ""):
     ax.set_rlabel_position(0)
     plt.yticks([25,50,75], ["25","50","75"], color="grey", size=8)
     plt.ylim(0,100)
-    print(angles)
     
     counter = 0
     for index, row in df.iterrows():
@@ -34,7 +33,12 @@ def plot_dataframe(df, legend, print_dataframe = False, title = ""):
         values += values[:1]
 
         # Plot data
-        ax.plot(angles, values, linewidth=1, linestyle='solid', label=legend[counter])
+        if len(legend) > counter:
+            lbl = legend[counter]
+        else:
+            lbl = None
+
+        ax.plot(angles, values, linewidth=1, linestyle='solid', label=lbl)
         ax.fill(angles, values, 'b', alpha=0.1)
         
         #for idx, an in enumerate(angles):
@@ -50,7 +54,7 @@ def plot_dataframe(df, legend, print_dataframe = False, title = ""):
         plt.title(label=title, fontdict={'fontsize': 22})
 
     # Add legend
-    if len(legend) >= 0:
+    if len(legend) > 0:
         plt.legend(bbox_to_anchor=(0.1, 0.1))
 
     if print_dataframe:

@@ -4,7 +4,7 @@ import helpers from '../helpers.js'
 
 
 
-function generateStrips(callback)
+function generateStripes(callback)
 {
 
   const texturesToLoad = ["sprites/spider.png"
@@ -19,7 +19,6 @@ function generateStrips(callback)
 ];
   var textures = [];
 
-
   var loader = new THREE.TextureLoader();
 
   //Texture Loader for multiple textures
@@ -27,7 +26,6 @@ function generateStrips(callback)
     textures.push(tex);
     if(textures.length < texturesToLoad.length)
     {
-      console.log("load again")
       loadTextures(cb);
     }
     else
@@ -41,7 +39,7 @@ function generateStrips(callback)
 
     //Create spidergrid
     var spidergrid_geometry = new THREE.PlaneBufferGeometry( 20, 20 );
-    var spidergrid_material = new THREE.MeshBasicMaterial( {side: THREE.BackSide} );
+    var spidergrid_material = new THREE.MeshBasicMaterial({color: 0xffffff, side: THREE.BackSide});
     spidergrid_material.transparent = true;
     spidergrid_material.map = textures[0];
     spidergrid_material.needsUpdate = true;  
@@ -81,5 +79,5 @@ function generateStrips(callback)
 }
 
 export default {
-  generateStrips: generateStrips
+  generateStripes: generateStripes
 }

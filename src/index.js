@@ -45,9 +45,10 @@ var directionalLight = new DirectionalLight( 0xffffff, 0.5 );
 directionalLight.position.set(0, 10, 0)
 scene.add( directionalLight );
 
-camera.position.z = 30;
 camera.position.x = 0;
-camera.position.y = 0;
+camera.position.y = consts.cameraYOffset;
+camera.position.z = consts.cameraZOffset;
+camera.lookAt(new Vector3(0, 0, 0))
 
 //Init Tower
 const tower = spider.createTower();
@@ -59,7 +60,8 @@ scroller.addZoomControl();
 
 //Add Infobutton
 document.querySelector('#controls').insertAdjacentHTML('beforeend', `<button class='control information'></button>`);
-//  document.querySelector('#controls .zoomPlus').addEventListener("click", () => zoom(-2));
+document.querySelector('#controls .information').addEventListener("click", () => document.querySelector('#credits').style.display = 'block');
+document.querySelector("canvas").addEventListener("click", () => document.querySelector('#credits').style.display = 'none');
 
 //Init Sprites
 var spriteArray = []
@@ -93,8 +95,19 @@ sprites.generateStripes(group => {
   //Init Popup
   popup(scene, camera, render, tower, spriteArray[spriteArray.length - 1]);
 
-  //Ready to animate!
+  render();
+
+});
+
+function startAnimation()
+{
+  //Hide Intro
+  document.querySelector('#intro').style.display = 'none';
+
   fadeIn(0, () => {
+
+    //Show Navigation
+    document.querySelector('#controls').style.display = 'block'
 
     //Show Sprites
     spriteArray.forEach(g => {
@@ -103,9 +116,9 @@ sprites.generateStripes(group => {
     render();
       
   });
+}
 
-
-});
+document.querySelector('#intro button').addEventListener("click", startAnimation)
 
 render();
 

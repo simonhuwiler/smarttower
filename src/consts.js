@@ -1,14 +1,12 @@
 exports.geometryHeight = 0.1
 
-//Radio for scrolling
-
 //Camera offsets
 exports.cameraYOffset = 25;
 exports.cameraZOffset = 25;
 
 //Fader
-exports.fadeSpiderPerRun = 1000
-// exports.fadeSpiderPerRun = 20
+// exports.fadeSpiderPerRun = 1000
+exports.fadeSpiderPerRun = 20
 
 smallPartyColor = '#8a8a8a';
 

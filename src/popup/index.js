@@ -43,7 +43,7 @@ function initPopup(scene, camera, renderCallback, intersectGroup, sprite)
         document.querySelector('#polPlace').textContent = pol[consts.profile['place']];
         document.querySelector('#polListe').textContent = pol[consts.profile['liste']];
         if(pol[consts.profile['nr']] != "")
-          document.querySelector('#polNr').textContent = `(${pol[consts.profile['nr']]})`
+          document.querySelector('#polNr').textContent = ` (${pol[consts.profile['nr']]})`
         else
           document.querySelector('#polNr').textContent = ``;
 

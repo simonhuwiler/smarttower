@@ -57,6 +57,10 @@ scene.add(tower)
 scroller.initScroller(camera, data.profile.length * consts.geometryHeight + consts.cameraYOffset, continuousRenderer)
 scroller.addZoomControl();
 
+//Add Infobutton
+document.querySelector('#controls').insertAdjacentHTML('beforeend', `<button class='control information'></button>`);
+//  document.querySelector('#controls .zoomPlus').addEventListener("click", () => zoom(-2));
+
 //Init Sprites
 var spriteArray = []
 sprites.generateStripes(group => {

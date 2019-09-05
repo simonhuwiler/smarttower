@@ -13,8 +13,8 @@ function addZoomControl()
         <button class='zoomMinus'></button>
       </div>`);
 
-  document.querySelector('#controls .zoomPlus').addEventListener("click", () => zoom(-2));
-  document.querySelector('#controls .zoomMinus').addEventListener("click", () => zoom(2));
+  document.querySelector('#controls .zoomPlus').addEventListener("click", () => zoom(-6));
+  document.querySelector('#controls .zoomMinus').addEventListener("click", () => zoom(6));
 }
 
 function zoom(value)
@@ -38,6 +38,9 @@ function initScroller(_camera, maxSize, _callback)
   camera = _camera;
   callback = _callback;
   document.body.onmousedown = function(e) { 
+    //Hide Credits
+    document.querySelector('#credits').style.display = 'none';
+
     //Set last Position
     if('screenX' in e)
     {
@@ -52,6 +55,7 @@ function initScroller(_camera, maxSize, _callback)
       lastPosition.y = e.touches[0].clientY;
 
     }
+
     callback(true)
 
     mouseDown = true;
@@ -68,20 +72,29 @@ function initScroller(_camera, maxSize, _callback)
 
   window.addEventListener("wheel", e => {
 
-    zoom(0.01 * event.deltaY)
+    //Calc Y
+    var y = camera.position.y - (0.04 * event.deltaY)
+    setCameraY(y)
+    _callback(false);
   });
+
+  function setCameraY(y)
+  {
+    //Calc Y
+    if(y < maxSize && y >= 15)
+    {
+      camera.position.y = y;
+      camera.lookAt(new Vector3(0, camera.position.y - consts.cameraYOffset, 0))
+    }
+
+  }
 
   function moveCamera(e)
   {
     if(mouseDown)
     {
       //Calc Y
-      var y = camera.position.y + 0.1 * (e.y - lastPosition.y)
-
-      if(y < maxSize && y >= 15)
-      {
-        camera.position.y = y;
-      }
+      setCameraY(camera.position.y + 0.1 * (e.y - lastPosition.y));
 
       //Calc X
       const rotSpeed = 0.01 * (lastPosition.x - e.x);
@@ -97,10 +110,18 @@ function initScroller(_camera, maxSize, _callback)
       camera.lookAt(new Vector3(0, camera.position.y - consts.cameraYOffset, 0))
     }
   };
-  // document.body.ontouchmove = document.body.onmousemove;
+
   document.body.onmousemove = e => moveCamera({x: e.screenX, y: e.screenY});
-  document.body.ontouchmove = e => moveCamera({x: e.touches[0].clientX, y: e.touches[0].clientY});
-}
+
+  document.addEventListener("touchmove", e => {
+    
+    //Prevent default to prevent reloading on swiping up on mobile
+    moveCamera({x: e.touches[0].clientX, y: e.touches[0].clientY})
+    e.preventDefault();
+    }, {
+      passive: false
+    });
+  }
 
 
 export default {

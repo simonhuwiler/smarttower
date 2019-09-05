@@ -14,6 +14,7 @@ var camera = new PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 
 var renderer = new WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 renderer.setClearColor( 0xffffff, 1 );
+renderer.setPixelRatio( window.devicePixelRatio );
 document.body.appendChild( renderer.domElement );
 
 //Register Resize Event
@@ -24,6 +25,9 @@ window.addEventListener( 'resize', () => {
     render();
 
 }, false);
+
+//Register click event on animation icons
+document.querySelector("#action").addEventListener("click", () => document.querySelector("#action").style.display = 'none');
 
 //Add Grid
 var gridHelper = new GridHelper( 100, 100 );
@@ -78,23 +82,10 @@ sprites.generateStripes(group => {
   group.position.set(0, data.profile.length * consts.geometryHeight, 0);
   spriteArray.push(group);
 
-  /*
-  group.visible = false;
-  spriteArray.push(group);
-  scene.add(group);
-  console.log(spriteArray, group)
-
-  //Clone
-  for(var i = 0; i < 5; i++)
-  {
-    var clone = group.clone();
-    clone.position.set(0, data.profile.length * consts.geometryHeight / 5 * (i + 1), 0)
-    scene.add(clone)
-    spriteArray.push(clone)
-  }
-  */
-
   render();
+
+  //Ready to start!
+  document.querySelector('#intro button').style.visibility = 'visible';
 
 });
 
@@ -110,6 +101,9 @@ function startAnimation()
 
     //Init Popup
     popup(scene, camera, render, tower, spriteArray[spriteArray.length - 1]);
+
+    //Show Animation Ivons
+    document.querySelector("#action").style.display = 'block';
 
     //Show Sprites
     spriteArray.forEach(g => {
@@ -166,6 +160,10 @@ function animate()
 var continousRenderingRunning = false;
 function continuousRenderer(shoudRender)
 {
+
+  //Hide Animation icons
+  document.querySelector("#action").style.display = 'none';
+
   continousRenderingRunning = shoudRender;
   render();
   animate();

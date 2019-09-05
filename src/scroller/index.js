@@ -37,7 +37,7 @@ function initScroller(_camera, maxSize, _callback)
 {
   camera = _camera;
   callback = _callback;
-  document.body.onmousedown = function(e) { 
+  document.querySelector("canvas").onmousedown = function(e) { 
     //Hide Credits
     document.querySelector('#credits').style.display = 'none';
 

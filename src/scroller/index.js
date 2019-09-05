@@ -60,15 +60,15 @@ function initScroller(_camera, maxSize, _callback)
 
     mouseDown = true;
   }
-  document.body.onmouseup = function() {
+  document.querySelector("canvas").onmouseup = function() {
     mouseDown = false;
 
     callback(false)
   }
 
   //Register Touch
-  document.body.ontouchstart = document.body.onmousedown;
-  document.body.ontouchend = document.body.onmouseup;
+  document.querySelector("canvas").ontouchstart = document.querySelector("canvas").onmousedown;
+  document.body.ontouchend = document.querySelector("canvas").onmouseup;
 
   window.addEventListener("wheel", e => {
 

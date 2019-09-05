@@ -52,7 +52,7 @@ export default {
         new webpack.HotModuleReplacementPlugin(),
         new CopyPlugin([
             { from: 'public', to: './' },
-            // { from: 'src/images/facebook.jpg', to: './images/facebook.jpg'}
+            { from: 'src/images/facebook.jpg', to: './images/facebook.jpg'}
           ]),
         new CleanWebpackPlugin()
     ],

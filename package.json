@@ -34,6 +34,7 @@
     "start-server-webpack-plugin": "^2.2.5"
   },
   "dependencies": {
+    "@tweenjs/tween.js": "^18.1.2",
     "three": "^0.108.0"
   }
 }

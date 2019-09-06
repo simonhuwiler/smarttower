@@ -5,8 +5,8 @@ exports.cameraYOffset = 25;
 exports.cameraZOffset = 25;
 
 //Fader
-// exports.fadeSpiderPerRun = 1000
-exports.fadeSpiderPerRun = 20
+exports.fadeSpiderPerRun = 2000
+// exports.fadeSpiderPerRun = 20
 
 smallPartyColor = '#8a8a8a';
 
@@ -19,6 +19,8 @@ exports.profile = {
   'liste': 5,
   'nr': 6
 }
+
+exports.nrParties = ['BDP', 'JBDP', 'CVP', 'JCVP', 'EVP', 'jevp', 'FDP', 'jf', 'Grüne', 'JG', 'Lega', 'MCG', 'SVP', 'JSVP', 'SP', 'JUSO', 'PdA'];
 
 exports.partyColor = {
   '5G ade!': smallPartyColor,

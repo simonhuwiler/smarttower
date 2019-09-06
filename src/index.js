@@ -5,7 +5,15 @@ import popup from './popup'
 import scroller from './scroller';
 import sprites from './sprites';
 import spider from './spider'
+import animator from './animator';
 import style from './style.css'
+
+//TEST
+document.querySelector("#test").addEventListener('click', () => {
+  animator.showBundesratsparteien();
+  continuousRenderer(true)
+  render();
+});
 
 var scene = new Scene();
 var camera = new PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );

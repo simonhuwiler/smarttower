@@ -3,7 +3,7 @@ import popup from './popup.css';
 import data from '../data.js';
 import consts from '../consts.js'
 
-function initPopup(scene, camera, renderCallback, intersectGroup, sprite)
+function initPopup(camera, renderCallback, intersectGroup, sprite)
 {
   var raycaster = new Raycaster();
   var mouse = new Vector2();
@@ -59,7 +59,25 @@ function initPopup(scene, camera, renderCallback, intersectGroup, sprite)
     }
   }
 
+  // function onDocumentMouseClick( event )
+  // {
+  //   console.log("click")
+  //   var intersects = raycaster.intersectObjects( intersectGroup.children );
+  //   if ( intersects.length > 0 ) {
+  //     var intersect = intersects[ 0 ];
+  //     if(intersect.object.userData.index)
+  //     {
+  //       //Move it!
+  //       console.log(intersect.object.userData.index);
+
+  //     }
+  //   }
+
+  // }
+
   document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+  // document.addEventListener( 'click', onDocumentMouseClick, false );
 }
+
 
 export default initPopup

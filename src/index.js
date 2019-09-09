@@ -108,7 +108,7 @@ function startAnimation()
     document.querySelector('#controls').style.display = 'block';
 
     //Init Popup
-    popup(scene, camera, render, tower, spriteArray[spriteArray.length - 1]);
+    popup(camera, render, tower, spriteArray[spriteArray.length - 1]);
 
     //Show Animation Ivons
     document.querySelector("#action").style.display = 'block';

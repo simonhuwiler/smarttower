@@ -5,8 +5,8 @@ exports.cameraYOffset = 25;
 exports.cameraZOffset = 25;
 
 //Fader
-exports.fadeSpiderPerRun = 2000
-// exports.fadeSpiderPerRun = 20
+// exports.fadeSpiderPerRun = 2000
+exports.fadeSpiderPerRun = 40
 
 smallPartyColor = '#8a8a8a';
 

@@ -146,6 +146,24 @@ canvas
   background-position: center center;
 }
 
+#controls .fractionstrength
+{
+  background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' id='Ebene_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 1417.3 1417.3' style='enable-background:new 0 0 1417.3 1417.3;' xml:space='preserve'%3E%3Cg%3E%3Cpath d='M730,759L231,937V793l354-103L231,587V443l499,178V759z'/%3E%3Cpath d='M1245,811c0,68-22.5,122.5-67.5,163.5S1068.6,1036,986,1036c-72.7,0-131.3-11.7-176-35V863c45.3,28,96,42,152,42 c89.3,0,134-32,134-96c0-24-9.2-43-27.5-57c-18.3-14-45.8-21-82.5-21c-51.3,0-100.7,11-148,33V374h367v124H980v111 c14.7-2,29.3-3,44-3c71.3,0,126,18.3,164,55C1226,697.7,1245,747.7,1245,811z'/%3E%3C/g%3E%3C/svg%3E%0A");
+  background-size: 80%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+#controls button:hover::before
+{
+  content: attr(data-hover);
+  position: absolute;
+  left: -210px;
+  text-align: right;
+  display: block;
+  width: 200px;
+}
+
 a, a:visited
 {
   color: #1c1c1c;

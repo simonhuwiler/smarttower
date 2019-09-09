@@ -20,7 +20,11 @@ exports.profile = {
   'nr': 6
 }
 
-exports.nrParties = ['BDP', 'JBDP', 'CVP', 'JCVP', 'EVP', 'jevp', 'FDP', 'jf', 'Grüne', 'JG', 'Lega', 'MCG', 'SVP', 'JSVP', 'SP', 'JUSO', 'PdA'];
+//Parties already in NR
+//exports.nrParties = ['BDP', 'JBDP', 'CVP', 'JCVP', 'EVP', 'jevp', 'FDP', 'jf', 'Grüne', 'JG', 'Lega', 'MCG', 'SVP', 'JSVP', 'SP', 'JUSO', 'PdA'];
+
+//Parties with 5 or more members
+exports.nrFractionStrength = ['BDP', 'JBDP', 'CVP', 'JCVP', 'FDP', 'jf', 'Grüne', 'JG', 'SVP', 'JSVP', 'SP', 'JUSO'];
 
 exports.partyColor = {
   '5G ade!': smallPartyColor,

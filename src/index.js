@@ -8,13 +8,6 @@ import spider from './spider'
 import animator from './animator';
 import style from './style.css'
 
-//TEST
-document.querySelector("#test").addEventListener('click', () => {
-  animator.showBundesratsparteien();
-  continuousRenderer(true)
-  render();
-});
-
 var scene = new Scene();
 var camera = new PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
@@ -33,6 +26,9 @@ window.addEventListener( 'resize', () => {
     render();
 
 }, false);
+
+//Register Animation Callback
+animator.addRenderCallback(render);
 
 //Register click event on animation icons
 document.querySelector("#action").addEventListener("click", () => document.querySelector("#action").style.display = 'none');
@@ -70,8 +66,12 @@ scene.add(tower)
 scroller.initScroller(camera, data.profile.length * consts.geometryHeight + consts.cameraYOffset, continuousRenderer)
 scroller.addZoomControl();
 
+//Add Fraction Strength
+document.querySelector('#controls').insertAdjacentHTML('beforeend', `<button class='control fractionstrength' data-hover='Nur Parteien mit Fraktionsstärke'></button>`);
+document.querySelector('#controls .fractionstrength').addEventListener("click", () => animator.showBundesratsparteien());
+
 //Add Infobutton
-document.querySelector('#controls').insertAdjacentHTML('beforeend', `<button class='control information'></button>`);
+document.querySelector('#controls').insertAdjacentHTML('beforeend', `<button class='control information' data-hover="Informationen"></button>`);
 document.querySelector('#controls .information').addEventListener("click", () => {
   document.querySelector('#credits').style.display = 'block'
   document.querySelector("#popup").style.display = 'none'

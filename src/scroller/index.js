@@ -9,8 +9,8 @@ function addZoomControl()
 {
   document.querySelector('#controls').insertAdjacentHTML('beforeend', `
     <div class='zoomgroup'>
-        <button class='zoomPlus'></button>
-        <button class='zoomMinus'></button>
+        <button class='zoomPlus' data-hover='Näher heran'></button>
+        <button class='zoomMinus' data-hover='Weiter weg'></button>
       </div>`);
 
   document.querySelector('#controls .zoomPlus').addEventListener("click", () => zoom(-6));

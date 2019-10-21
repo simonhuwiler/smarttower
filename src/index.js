@@ -34,7 +34,7 @@ animator.addRenderCallback(render);
 document.querySelector("#action").addEventListener("click", () => document.querySelector("#action").style.display = 'none');
 
 //Add Grid
-var gridHelper = new GridHelper( 100, 100 );
+var gridHelper = new GridHelper( 50, 50 );
 scene.add( gridHelper );
 
 //Light
@@ -66,9 +66,9 @@ scene.add(tower)
 scroller.initScroller(camera, data.profile.length * consts.geometryHeight + consts.cameraYOffset, continuousRenderer)
 scroller.addZoomControl();
 
-//Add Fraction Strength
-document.querySelector('#controls').insertAdjacentHTML('beforeend', `<button class='control fractionstrength' data-hover='Nur Parteien mit Fraktionsstärke'></button>`);
-document.querySelector('#controls .fractionstrength').addEventListener("click", () => animator.showBundesratsparteien());
+// //Add Fraction Strength
+// document.querySelector('#controls').insertAdjacentHTML('beforeend', `<button class='control fractionstrength' data-hover='Nur Parteien mit Fraktionsstärke'></button>`);
+// document.querySelector('#controls .fractionstrength').addEventListener("click", () => animator.showBundesratsparteien());
 
 //Add Infobutton
 document.querySelector('#controls').insertAdjacentHTML('beforeend', `<button class='control information' data-hover="Informationen"></button>`);

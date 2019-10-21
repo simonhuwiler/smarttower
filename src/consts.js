@@ -1,12 +1,12 @@
-exports.geometryHeight = 0.1
+exports.geometryHeight = 0.4
 
 //Camera offsets
-exports.cameraYOffset = 25;
-exports.cameraZOffset = 25;
+exports.cameraYOffset = 35;
+exports.cameraZOffset = 35;
 
 //Fader
 // exports.fadeSpiderPerRun = 2000
-exports.fadeSpiderPerRun = 40
+exports.fadeSpiderPerRun = 3
 
 smallPartyColor = '#8a8a8a';
 
@@ -16,8 +16,6 @@ exports.profile = {
   'lastname': 2,
   'party': 3,
   'place': 4,
-  'liste': 5,
-  'nr': 6
 }
 
 //Parties already in NR

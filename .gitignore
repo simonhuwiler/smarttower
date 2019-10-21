@@ -24,4 +24,5 @@ yarn-error.log*
 
 .ipynb_checkpoints
 /dist
-__pycache__
+__pycache__/
+.pyc

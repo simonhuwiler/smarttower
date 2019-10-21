@@ -41,11 +41,11 @@ function initPopup(camera, renderCallback, intersectGroup, sprite)
         document.querySelector('#polParty').textContent = pol[consts.profile['party']];
         document.querySelector('#polParty').style.backgroundColor = consts.partyColor[pol[consts.profile['party']]];
         document.querySelector('#polPlace').textContent = pol[consts.profile['place']];
-        document.querySelector('#polListe').textContent = pol[consts.profile['liste']];
-        if(pol[consts.profile['nr']] != "")
-          document.querySelector('#polNr').textContent = ` (${pol[consts.profile['nr']]})`
-        else
-          document.querySelector('#polNr').textContent = ``;
+        // document.querySelector('#polListe').textContent = pol[consts.profile['liste']];
+        // if(pol[consts.profile['nr']] != "")
+        //   document.querySelector('#polNr').textContent = ` (${pol[consts.profile['nr']]})`
+        // else
+        //   document.querySelector('#polNr').textContent = ``;
 
         document.querySelector('#link').href = `https://smartvote.ch/de/group/2/election/19_ch_nr/db/candidates/${pol[consts.profile['id']]}`;
 
